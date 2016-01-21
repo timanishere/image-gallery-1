@@ -1,49 +1,80 @@
 'use strict';
+//------------------- DEPENDENCIES -------------------//
+var gulp 					= require('gulp');
+var sass 					= require('gulp-sass');
+var cssnano					= require('gulp-cssnano');
+var sourcemaps 				= require('gulp-sourcemaps');
+var imagemin 				= require('gulp-imagemin');
+var concat 					= require('gulp-concat');
+var uglify 					= require('gulp-uglify');
+var notify 					= require('gulp-notify');
+var autoprefixer 			= require('gulp-autoprefixer');
 
-var gulp 			= require('gulp');
-var sass 			= require('gulp-sass');
-var cssnano			= require('gulp-cssnano');
-var sourcemaps 		= require('gulp-sourcemaps');
-var imagemin 		= require('gulp-imagemin');
-var concat 			= require('gulp-concat');
-var uglify 			= require('gulp-uglify');
+var pngquant 				= require('imagemin-pngquant');
+var browserSync 			= require('browser-sync');
+//var reload		 			=  browserSync.reload;
+//------------------- DEPENDENCIES -------------------//
 
-var pngquant 		= require('imagemin-pngquant');
+
+///////////////////////////////////////
+// BROWSER SYNC
+///////////////////////////////////////
+gulp.task('serve', ['sass'], function() {
+	browserSync.init({
+		server: "./app"
+	});
+
+	gulp.watch('./app/scss/**/*.scss', ['sass']);
+	gulp.watch('./app/css/*.css');
+	gulp.watch('./app/scripts/**/*.js', ['scripts']);
+	gulp.watch('./app/html/**/*.html').on('change', browserSync.reload);
+	gulp.watch('./app/*.html').on('change', browserSync.reload);
+});
+
 
 ///////////////////////////////////////
 // SASS COMPILE
 ///////////////////////////////////////
 gulp.task('sass', function() {
-	gulp.src('./scss/**/*.scss')
+	gulp.src('./app/scss/**/*.scss')
 		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', sass.logError))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('./css'));
+		.pipe(autoprefixer({
+			browser: ['last 2 versions'],
+			cascade: false
+		}))
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest('./app/css'))
+		.pipe(browserSync.stream())
+		.pipe(notify('SASS has been compiled successfully'));
 });
+
 
 
 ///////////////////////////////////////
 // CSS MINIFY
 ///////////////////////////////////////
 gulp.task('cssnano', function() {
-	return gulp.src('./css/main.css')
+	return gulp.src('./app/css/main.css')
 		.pipe(sourcemaps.init())
 		.pipe(cssnano())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist/'));
+		.pipe(gulp.dest('./dist/'))
+		.pipe(notify('CSS has been minified successfully'));
 });
 
 ///////////////////////////////////////
 // IMAGE MINIFY
 ///////////////////////////////////////
 gulp.task('imagemin', function() {
-	return gulp.src('./images/*')
+	return gulp.src('./app/images/*')
 		.pipe(imagemin({
 			progressive:true,
 			svgoPlugins: [{removeViewBox: false}],
 			use: [pngquant()]
 		}))
-		.pipe(gulp.dest('./dist/images/'));
+		.pipe(gulp.dest('./dist/images/'))
+		.pipe(notify('images has been minified successfully'));
 });
 
 
@@ -51,32 +82,43 @@ gulp.task('imagemin', function() {
 // JAVASCRIPT CONCATENATE
 ///////////////////////////////////////
 gulp.task('scripts', function() {
-	return gulp.src('./scripts/src/*.js')
-		.pipe(sourcemaps.init())
-		.pipe(concat('./scripts/main.js'))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist/'))
+	return gulp.src('./app/scripts/src/*.js')
+		.pipe(concat('main.js'))
+		.pipe(gulp.dest('./app/scripts/'))
+		.pipe(notify('JavaScript has been concatenated successfully'));
 });
 
 ///////////////////////////////////////
 // JAVASCRIPT MINIFY
 ///////////////////////////////////////
 gulp.task('uglify', function() {
-	return gulp.src('./scripts/main.js')
+	return gulp.src('./app/scripts/main.js')
 		.pipe(sourcemaps.init())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist'));
+		.pipe(gulp.dest('./dist'))
+		.pipe(notify('JavaScript has been minified successfully'));
 });
 
-///////////////////////////////////////
-// WATCH FOR CHANGES
-///////////////////////////////////////
+
+////////////////////////////////////////////
+// WATCHES FOR SCSS + CSS + SCRIPTS CHANGES
+///////////////////////////////////////////
 gulp.task('watch', function() {
-	gulp.watch('./scss/**/*.scss', ['sass', 'cssnano', 'imagemin', 'scripts']);
-	gulp.watch('./css/*.scss', ['sass', 'cssnano', 'imagemin', 'scripts']);
-	gulp.watch('./images/*', ['sass', 'cssnano', 'imagemin', 'scripts']);
-	gulp.watch('./scripts/*', ['sass', 'cssnano', 'imagemin', 'scripts', 'uglify']);
+	gulp.watch('./app/scss/**/*.scss', ['sass']);
+	gulp.watch('./app/css/*.css');
+	gulp.watch('./app/scripts/**/*.js', ['scripts']);
+	gulp.watch('./app/html/**/*.html');
 });
 
-gulp.task('default', ['sass', 'imagemin', 'cssnano', 'scripts', 'uglify', 'watch']);
+////////////////////////////////////////
+// BUILDS PRODUCTION FOLDER 
+////////////////////////////////////////
+gulp.task('dist', ['sass', 'cssnano', 'scripts', 'uglify', 'imagemin'], function() {
+	console.log('SUCCESS: File fully compiled :)');
+});
+
+///////////////////////////////////////
+// GULP DEFAULT
+///////////////////////////////////////
+gulp.task('default', ['serve', 'sass', 'scripts', 'watch']);
