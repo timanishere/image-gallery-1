@@ -7,7 +7,7 @@ var sourcemaps 				= require('gulp-sourcemaps');
 var imagemin 				= require('gulp-imagemin');
 var concat 					= require('gulp-concat');
 var uglify 					= require('gulp-uglify');
-var notify 					= require('gulp-notify');
+//var notify 					= require('gulp-notify');
 var autoprefixer 			= require('gulp-autoprefixer');
 
 var pngquant 				= require('imagemin-pngquant');
@@ -46,7 +46,7 @@ gulp.task('sass', function() {
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./app/css'))
 		.pipe(browserSync.stream())
-		.pipe(notify('SASS has been compiled successfully'));
+		//.pipe(notify('SASS has been compiled successfully'));
 });
 
 
@@ -60,7 +60,7 @@ gulp.task('cssnano', function() {
 		.pipe(cssnano())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./dist/'))
-		.pipe(notify('CSS has been minified successfully'));
+		//.pipe(notify('CSS has been minified successfully'));
 });
 
 ///////////////////////////////////////
@@ -74,7 +74,7 @@ gulp.task('imagemin', function() {
 			use: [pngquant()]
 		}))
 		.pipe(gulp.dest('./dist/images/'))
-		.pipe(notify('images has been minified successfully'));
+		//.pipe(notify('images has been minified successfully'));
 });
 
 
@@ -85,7 +85,8 @@ gulp.task('scripts', function() {
 	return gulp.src('./app/scripts/src/*.js')
 		.pipe(concat('main.js'))
 		.pipe(gulp.dest('./app/scripts/'))
-		.pipe(notify('JavaScript has been concatenated successfully'));
+		.pipe(browserSync.stream())
+		//.pipe(notify('JavaScript has been concatenated successfully'));
 });
 
 ///////////////////////////////////////
@@ -97,7 +98,7 @@ gulp.task('uglify', function() {
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./dist'))
-		.pipe(notify('JavaScript has been minified successfully'));
+		//.pipe(notify('JavaScript has been minified successfully'));
 });
 
 
@@ -107,7 +108,7 @@ gulp.task('uglify', function() {
 gulp.task('watch', function() {
 	gulp.watch('./app/scss/**/*.scss', ['sass']);
 	gulp.watch('./app/css/*.css');
-	gulp.watch('./app/scripts/**/*.js', ['scripts']);
+	gulp.watch('./app/scripts/src/*.js', ['scripts']);
 	gulp.watch('./app/html/**/*.html');
 });
 
@@ -121,4 +122,4 @@ gulp.task('dist', ['sass', 'cssnano', 'scripts', 'uglify', 'imagemin'], function
 ///////////////////////////////////////
 // GULP DEFAULT
 ///////////////////////////////////////
-gulp.task('default', ['serve', 'sass', 'scripts', 'watch']);
+gulp.task('default', ['serve', 'sass', 'scripts','watch']);

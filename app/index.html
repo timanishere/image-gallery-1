@@ -5,10 +5,15 @@
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
+		<script type="text/javascript" src="scripts/main.js"></script>
 	</head>
 
-	<body>
-		<h1>Dunko</h1>
+	<body ng-app="">
+		<h1>This boilerplate is created by  <a href="http://www.timanishere.com" target="_blank">Tim Anishere</a></h1>
+		<br>
+		<div ng-include="'html/includes/social.html'"></div>
+		<p class="box">Click here</p>
 	</body>
 </html>
