@@ -1,6 +1,10 @@
 @import 'base/color';
 @import 'base/typography';
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 	background-color: $red;
 	font-family: $main-font;

@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box; }
+
 body {
   background-color: #ff1a1a;
   font-family: sans-serif;
@@ -48,5 +51,15 @@ h5 {
   .box a {
     color: #ff1a1a;
     text-decoration: none; }
+
+.row:after {
+  content: "";
+  clear: both;
+  display: block; }
+
+.one {
+  width: 8.33%;
+  float: left;
+  padding: 15px; }
 
 /*# sourceMappingURL=main.css.map */
