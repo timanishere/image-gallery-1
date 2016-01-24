@@ -9,6 +9,9 @@ var concat 					= require('gulp-concat');
 var uglify 					= require('gulp-uglify');
 //var notify 					= require('gulp-notify');
 var autoprefixer 			= require('gulp-autoprefixer');
+var jshint 					= require('gulp-jshint');
+var useref 					= require('gulp-useref');
+var htmlmin 				= require('gulp-htmlmin');
 
 var pngquant 				= require('imagemin-pngquant');
 var browserSync 			= require('browser-sync');
@@ -45,7 +48,7 @@ gulp.task('sass', function() {
 		}))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./app/css'))
-		.pipe(browserSync.stream())
+		.pipe(browserSync.stream());
 		//.pipe(notify('SASS has been compiled successfully'));
 });
 
@@ -59,9 +62,10 @@ gulp.task('cssnano', function() {
 		.pipe(sourcemaps.init())
 		.pipe(cssnano())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist/'))
+		.pipe(gulp.dest('./dist/css'));
 		//.pipe(notify('CSS has been minified successfully'));
 });
+
 
 ///////////////////////////////////////
 // IMAGE MINIFY
@@ -73,7 +77,7 @@ gulp.task('imagemin', function() {
 			svgoPlugins: [{removeViewBox: false}],
 			use: [pngquant()]
 		}))
-		.pipe(gulp.dest('./dist/images/'))
+		.pipe(gulp.dest('./dist/images/'));
 		//.pipe(notify('images has been minified successfully'));
 });
 
@@ -82,12 +86,28 @@ gulp.task('imagemin', function() {
 // JAVASCRIPT CONCATENATE
 ///////////////////////////////////////
 gulp.task('scripts', function() {
-	return gulp.src('./app/scripts/src/*.js')
+	return gulp.src([ 
+		'./app/bower_components/angular/angular.min.js',
+		'./app/bower_components/jquery/dist/jquery.min.js',
+		'./app/scripts/src/*.js'
+		])
 		.pipe(concat('main.js'))
 		.pipe(gulp.dest('./app/scripts/'))
-		.pipe(browserSync.stream())
+		.pipe(browserSync.stream());
 		//.pipe(notify('JavaScript has been concatenated successfully'));
 });
+
+
+///////////////////////////////////////
+// JS LINTING
+///////////////////////////////////////
+gulp.task('jshint', function() {
+	return gulp.src('./app/scripts/src/*.js')
+	.pipe(jshint())
+	.pipe(jshint.reporter('default'));
+
+});
+
 
 ///////////////////////////////////////
 // JAVASCRIPT MINIFY
@@ -97,8 +117,50 @@ gulp.task('uglify', function() {
 		.pipe(sourcemaps.init())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist'))
+		.pipe(gulp.dest('./dist/scripts'));
 		//.pipe(notify('JavaScript has been minified successfully'));
+});
+
+
+///////////////////////////////////////
+// PARSES INDEX HTML TO DIST + MINIFY
+///////////////////////////////////////
+gulp.task('userefInd', function() {
+	return gulp.src('./app/*.html')
+		.pipe(useref())
+		.pipe(htmlmin({collapseWhitespace: true}))
+		.pipe(gulp.dest('./dist'));
+});
+
+
+///////////////////////////////////////
+// PARSES HTML PAGES TO DIST + MINIFY
+///////////////////////////////////////
+gulp.task('userefPgs', function() {
+	return gulp.src('./app/html/*.html')
+		.pipe(useref())
+		.pipe(htmlmin({collapseWhitespace: true}))
+		.pipe(gulp.dest('./dist/html'));
+});
+
+
+/////////////////////////////////////////
+// PARSES HTML INCLUDES TO DIST + MINIFY
+/////////////////////////////////////////
+gulp.task('userefInc', function() {
+	return gulp.src('./app/html/includes/*.html')
+		.pipe(useref())
+		.pipe(htmlmin({collapseWhitespace: true}))
+		.pipe(gulp.dest('./dist/html/includes'));
+});
+
+
+///////////////////////////////////////////////
+// PARSES INDEX HTML + PAGES + INCLUDES + BOWER
+// TO DIST
+///////////////////////////////////////////////
+gulp.task('useref', ['userefInd', 'userefPgs', 'userefInc'], function() {
+	console.log('HTML + BOWER COMPONENTS HAS BEEN SUCCESSFUL PARSED TO DIST FOLDER');
 });
 
 
@@ -108,14 +170,15 @@ gulp.task('uglify', function() {
 gulp.task('watch', function() {
 	gulp.watch('./app/scss/**/*.scss', ['sass']);
 	gulp.watch('./app/css/*.css');
-	gulp.watch('./app/scripts/src/*.js', ['scripts']);
+	gulp.watch('./app/scripts/src/*.js', ['scripts', 'jshint']);
 	gulp.watch('./app/html/**/*.html');
 });
 
+
 ////////////////////////////////////////
-// BUILDS PRODUCTION FOLDER 
+// CREATES DIST FOLDER 
 ////////////////////////////////////////
-gulp.task('dist', ['sass', 'cssnano', 'scripts', 'uglify', 'imagemin'], function() {
+gulp.task('dist', ['useref','sass', 'cssnano', 'scripts', 'uglify', 'imagemin'], function() {
 	console.log('SUCCESS: File fully compiled :)');
 });
 

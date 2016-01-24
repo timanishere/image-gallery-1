@@ -36,7 +36,8 @@ h5 {
 	font-weight: 600;
 	color: $red;
 
-	&:hover {
-		cursor: pointer;
+	a {
+		color: $red;
+		text-decoration: none;
 	}
 }
