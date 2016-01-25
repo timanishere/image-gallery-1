@@ -16,6 +16,7 @@ var htmlmin 				= require('gulp-htmlmin');
 var pngquant 				= require('imagemin-pngquant');
 var browserSync 			= require('browser-sync');
 //var reload		 			=  browserSync.reload;
+var	d 						= new Date();
 //------------------- DEPENDENCIES -------------------//
 
 
@@ -72,7 +73,7 @@ gulp.task('cssnano', function() {
 		.pipe(sourcemaps.init())
 		.pipe(cssnano())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist/css'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/css'));
 		//.pipe(notify('CSS has been minified successfully'));
 });
 
@@ -87,7 +88,7 @@ gulp.task('imagemin', function() {
 			svgoPlugins: [{removeViewBox: false}],
 			use: [pngquant()]
 		}))
-		.pipe(gulp.dest('./dist/images/'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/images/'));
 		//.pipe(notify('images has been minified successfully'));
 });
 
@@ -129,7 +130,7 @@ gulp.task('uglify', function() {
 		.pipe(sourcemaps.init())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist/scripts'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/scripts'));
 		//.pipe(notify('JavaScript has been minified successfully'));
 });
 
@@ -141,7 +142,7 @@ gulp.task('userefInd', function() {
 	return gulp.src('./app/*.html')
 		.pipe(useref())
 		.pipe(htmlmin({collapseWhitespace: true}))
-		.pipe(gulp.dest('./dist'));
+		.pipe(gulp.dest('./dist_' + d.getTime()));
 });
 
 
@@ -152,7 +153,7 @@ gulp.task('userefPgs', function() {
 	return gulp.src('./app/html/*.html')
 		.pipe(useref())
 		.pipe(htmlmin({collapseWhitespace: true}))
-		.pipe(gulp.dest('./dist/html'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/html'));
 });
 
 
@@ -163,7 +164,7 @@ gulp.task('userefInc', function() {
 	return gulp.src('./app/html/includes/*.html')
 		.pipe(useref())
 		.pipe(htmlmin({collapseWhitespace: true}))
-		.pipe(gulp.dest('./dist/html/includes'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/html/includes'));
 });
 
 
