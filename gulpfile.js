@@ -53,6 +53,16 @@ gulp.task('sass', function() {
 });
 
 
+///////////////////////////////////////
+// FONT AWESOME BOWER CONCATENATE
+///////////////////////////////////////
+gulp.task('fontawesome', function() {
+	return gulp.src('.app/bower_components/font-awesome/scss/font-awesome.scss')
+	.pipe(sass().on('error', sass.logError))
+	.pipe(concat('main.css'))
+	.pipe(gulp.dest('./app/css'));
+});
+
 
 ///////////////////////////////////////
 // CSS MINIFY
@@ -84,6 +94,7 @@ gulp.task('imagemin', function() {
 
 ///////////////////////////////////////
 // JAVASCRIPT CONCATENATE
+// ANGULAR + JQUERY BOWER CONCATENATE
 ///////////////////////////////////////
 gulp.task('scripts', function() {
 	return gulp.src([ 
@@ -96,6 +107,7 @@ gulp.task('scripts', function() {
 		.pipe(browserSync.stream());
 		//.pipe(notify('JavaScript has been concatenated successfully'));
 });
+
 
 
 ///////////////////////////////////////
@@ -185,4 +197,4 @@ gulp.task('dist', ['useref','sass', 'cssnano', 'scripts', 'uglify', 'imagemin'],
 ///////////////////////////////////////
 // GULP DEFAULT
 ///////////////////////////////////////
-gulp.task('default', ['serve', 'sass', 'scripts','watch']);
+gulp.task('default', ['serve', 'sass', 'fontawesome', 'scripts','watch']);
