@@ -17,7 +17,7 @@
 <strong>IMPORTANT: RUN YOUR TERMINAL AS ADMINISTRATOR TO AVOID INSTALLATION ISSUES</strong> <br>
 1. Git clone into project folder 'git clone https://github.com/timanishere/frontend-boilerplate.git'<br>
 2. CD into 'frontend-boilerplate' repo. <br>
-3. Run npm 'install bower -g' <br>
+3. Run 'npm install bower -g' <br>
 4. Run 'bower install' <br>
 5. Run 'bower update' <br>
 6. Run 'npm install' <br>
