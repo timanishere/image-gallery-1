@@ -4,7 +4,7 @@ FEATURES
 - Runs on Gulp.js
 - Compiles SCSS to CSS
 - Autoprexfixer
-- BrowerSync and injects JS, HTML and CSS upon reload
+- BrowerSync and upates changes to JS, HTML and CSS upon reload
 - Compresses Images
 - Concatenates JS to single files
 - Minifies HTML, JS and CSS
