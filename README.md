@@ -14,7 +14,7 @@
 
 
 <h1>INSTALLATION</h1>
-1. Git clone into project folder <br>
+1. Git clone into project folder 'git clone https://github.com/timanishere/frontend-boilerplate.git'<br>
 2. CD into 'frontend-boilerplate' repo. <br>
 3. Run npm 'install bower -g' <br>
 4. Run 'bower install' <br>
