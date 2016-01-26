@@ -1,4 +1,3 @@
-'use strict';
 //------------------- DEPENDENCIES -------------------//
 var gulp 					= require('gulp');
 var sass 					= require('gulp-sass');
@@ -12,10 +11,12 @@ var autoprefixer 			= require('gulp-autoprefixer');
 var jshint 					= require('gulp-jshint');
 var useref 					= require('gulp-useref');
 var htmlmin 				= require('gulp-htmlmin');
+var concatCss 				= require('gulp-concat-css');
 
 var pngquant 				= require('imagemin-pngquant');
 var browserSync 			= require('browser-sync');
-//var reload		 			=  browserSync.reload;
+
+//var reload		 		=  browserSync.reload;
 var	d 						= new Date();
 //------------------- DEPENDENCIES -------------------//
 
@@ -58,12 +59,16 @@ gulp.task('sass', function() {
 // FONT AWESOME BOWER CONCATENATE
 ///////////////////////////////////////
 gulp.task('fontawesome', function() {
-	return gulp.src('.app/bower_components/font-awesome/scss/font-awesome.scss')
-	.pipe(sass().on('error', sass.logError))
-	.pipe(concat('main.css'))
-	.pipe(gulp.dest('./app/css'));
+	return gulp.src('./app/bower_components/font-awesome/css/font-awesome.css')
+	.pipe(concat({path: '_font-awesome.scss', stat: { mode: 0666}}))
+	.pipe(gulp.dest('./app/scss/vendor'));
 });
 
+gulp.task('fontawesomeTypo', function() {
+	return gulp.src('./app/bower_components/font-awesome/fonts/**')
+	//.pipe(concat({path: '_font-awesome.scss', stat: { mode: 0666}}))
+	.pipe(gulp.dest('./app/fonts'));
+});
 
 ///////////////////////////////////////
 // CSS MINIFY
@@ -103,7 +108,8 @@ gulp.task('scripts', function() {
 		'./app/bower_components/jquery/dist/jquery.min.js',
 		'./app/scripts/src/*.js'
 		])
-		.pipe(concat('main.js'))
+		//.pipe(concat('main.js'))
+		.pipe(concat({path: 'main.js', stat: { mode: 0666}}))
 		.pipe(gulp.dest('./app/scripts/'))
 		.pipe(browserSync.stream());
 		//.pipe(notify('JavaScript has been concatenated successfully'));
@@ -134,6 +140,13 @@ gulp.task('uglify', function() {
 		//.pipe(notify('JavaScript has been minified successfully'));
 });
 
+///////////////////////////////////////
+// PARSES INDEX HTML TO DIST + MINIFY
+///////////////////////////////////////
+gulp.task('fonts', function() {
+	return gulp.src('./app/fonts/**')
+	.pipe(gulp.dest('./dist_' + d.getTime() + '/fonts'));
+});
 
 ///////////////////////////////////////
 // PARSES INDEX HTML TO DIST + MINIFY
@@ -191,11 +204,12 @@ gulp.task('watch', function() {
 ////////////////////////////////////////
 // CREATES DIST FOLDER 
 ////////////////////////////////////////
-gulp.task('dist', ['useref','sass', 'cssnano', 'scripts', 'uglify', 'imagemin'], function() {
+gulp.task('dist', ['useref','sass', 'cssnano', 'fonts', 'scripts', 'uglify', 'imagemin'], function() {
 	console.log('SUCCESS: File fully compiled :)');
 });
 
 ///////////////////////////////////////
 // GULP DEFAULT
 ///////////////////////////////////////
-gulp.task('default', ['serve', 'sass', 'fontawesome', 'scripts','watch']);
+gulp.task('default', ['fontawesome','fontawesomeTypo', 'sass', 'scripts', 'jshint', 'serve', 'watch' ]);
+//gulp.task('default', ['fontawesomeTypo']);
