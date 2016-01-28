@@ -3,45 +3,25 @@
 
 * {
 	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 
 body {
-	background-color: $red;
+	background-color: grey;
 	font-family: $main-font;
-	text-align: center;
+	overflow-x: hidden;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-	color: $white;
-
-	a {
-		display: block;
-		width: 100%;
-
-		&:link, &:visited {
-			color: $white;
-			text-decoration: none;
-		}
-		&:hover, &:active {
-			background-color: $white;
-			color: $red;
-		}
-	}
+a {
+	text-decoration: none;
 }
 
-.box {
-	background-color: $white;
+.container {
 	width: 100%;
-	padding: 10px 0;
-	font-weight: 600;
-	color: $red;
-
-	a {
-		color: $red;
-		text-decoration: none;
-	}
+	height:2000px;
+	border: 2px solid red;
+    position: relative;
+    top: 33px;
+    z-index: -1;
 }
