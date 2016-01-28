@@ -35,5 +35,6 @@ Devnodejsnpm-cache/
 .sass-cache
 *.css.map
 build/
+*dist_*/
 dist/
 maps/

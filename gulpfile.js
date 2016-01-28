@@ -1,4 +1,3 @@
-'use strict';
 //------------------- DEPENDENCIES -------------------//
 var gulp 					= require('gulp');
 var sass 					= require('gulp-sass');
@@ -12,10 +11,13 @@ var autoprefixer 			= require('gulp-autoprefixer');
 var jshint 					= require('gulp-jshint');
 var useref 					= require('gulp-useref');
 var htmlmin 				= require('gulp-htmlmin');
+var concatCss 				= require('gulp-concat-css');
 
 var pngquant 				= require('imagemin-pngquant');
 var browserSync 			= require('browser-sync');
-//var reload		 			=  browserSync.reload;
+
+//var reload		 		=  browserSync.reload;
+var	d 						= new Date();
 //------------------- DEPENDENCIES -------------------//
 
 
@@ -53,6 +55,20 @@ gulp.task('sass', function() {
 });
 
 
+///////////////////////////////////////
+// FONT AWESOME BOWER CONCATENATE
+///////////////////////////////////////
+gulp.task('fontawesome', function() {
+	return gulp.src('./app/bower_components/font-awesome/css/font-awesome.css')
+	.pipe(concat({path: '_font-awesome.scss', stat: { mode: 0666}}))
+	.pipe(gulp.dest('./app/scss/vendor'));
+});
+
+gulp.task('fontawesomeTypo', function() {
+	return gulp.src('./app/bower_components/font-awesome/fonts/**')
+	//.pipe(concat({path: '_font-awesome.scss', stat: { mode: 0666}}))
+	.pipe(gulp.dest('./app/fonts'));
+});
 
 ///////////////////////////////////////
 // CSS MINIFY
@@ -62,7 +78,7 @@ gulp.task('cssnano', function() {
 		.pipe(sourcemaps.init())
 		.pipe(cssnano())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist/css'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/css'));
 		//.pipe(notify('CSS has been minified successfully'));
 });
 
@@ -77,13 +93,14 @@ gulp.task('imagemin', function() {
 			svgoPlugins: [{removeViewBox: false}],
 			use: [pngquant()]
 		}))
-		.pipe(gulp.dest('./dist/images/'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/images/'));
 		//.pipe(notify('images has been minified successfully'));
 });
 
 
 ///////////////////////////////////////
 // JAVASCRIPT CONCATENATE
+// ANGULAR + JQUERY BOWER CONCATENATE
 ///////////////////////////////////////
 gulp.task('scripts', function() {
 	return gulp.src([ 
@@ -91,11 +108,13 @@ gulp.task('scripts', function() {
 		'./app/bower_components/jquery/dist/jquery.min.js',
 		'./app/scripts/src/*.js'
 		])
-		.pipe(concat('main.js'))
+		//.pipe(concat('main.js'))
+		.pipe(concat({path: 'main.js', stat: { mode: 0666}}))
 		.pipe(gulp.dest('./app/scripts/'))
 		.pipe(browserSync.stream());
 		//.pipe(notify('JavaScript has been concatenated successfully'));
 });
+
 
 
 ///////////////////////////////////////
@@ -117,10 +136,17 @@ gulp.task('uglify', function() {
 		.pipe(sourcemaps.init())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist/scripts'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/scripts'));
 		//.pipe(notify('JavaScript has been minified successfully'));
 });
 
+///////////////////////////////////////
+// PARSES INDEX HTML TO DIST + MINIFY
+///////////////////////////////////////
+gulp.task('fonts', function() {
+	return gulp.src('./app/fonts/**')
+	.pipe(gulp.dest('./dist_' + d.getTime() + '/fonts'));
+});
 
 ///////////////////////////////////////
 // PARSES INDEX HTML TO DIST + MINIFY
@@ -129,7 +155,7 @@ gulp.task('userefInd', function() {
 	return gulp.src('./app/*.html')
 		.pipe(useref())
 		.pipe(htmlmin({collapseWhitespace: true}))
-		.pipe(gulp.dest('./dist'));
+		.pipe(gulp.dest('./dist_' + d.getTime()));
 });
 
 
@@ -140,7 +166,7 @@ gulp.task('userefPgs', function() {
 	return gulp.src('./app/html/*.html')
 		.pipe(useref())
 		.pipe(htmlmin({collapseWhitespace: true}))
-		.pipe(gulp.dest('./dist/html'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/html'));
 });
 
 
@@ -151,7 +177,7 @@ gulp.task('userefInc', function() {
 	return gulp.src('./app/html/includes/*.html')
 		.pipe(useref())
 		.pipe(htmlmin({collapseWhitespace: true}))
-		.pipe(gulp.dest('./dist/html/includes'));
+		.pipe(gulp.dest('./dist_' + d.getTime() + '/html/includes'));
 });
 
 
@@ -178,11 +204,12 @@ gulp.task('watch', function() {
 ////////////////////////////////////////
 // CREATES DIST FOLDER 
 ////////////////////////////////////////
-gulp.task('dist', ['useref','sass', 'cssnano', 'scripts', 'uglify', 'imagemin'], function() {
+gulp.task('dist', ['useref','sass', 'cssnano', 'fonts', 'scripts', 'uglify', 'imagemin'], function() {
 	console.log('SUCCESS: File fully compiled :)');
 });
 
 ///////////////////////////////////////
 // GULP DEFAULT
 ///////////////////////////////////////
-gulp.task('default', ['serve', 'sass', 'scripts','watch']);
+gulp.task('default', ['fontawesome','fontawesomeTypo', 'sass', 'scripts', 'jshint', 'serve', 'watch' ]);
+//gulp.task('default', ['fontawesomeTypo']);
