@@ -1,0 +1,14 @@
+.bg-color-white {
+	background-color:white;
+}
+
+
+// For Small screen sub menus
+.submenu-blank-line {
+	color: black !important;
+
+	&:hover {
+		background-color: black !important;
+		cursor: default;
+	}
+}

@@ -15,8 +15,12 @@ var concatCss 				= require('gulp-concat-css');
 
 var pngquant 				= require('imagemin-pngquant');
 var browserSync 			= require('browser-sync');
+<<<<<<< HEAD
 
 //var reload		 		=  browserSync.reload;
+=======
+//var reload		 			=  browserSync.reload;
+>>>>>>> 5ab4283f2f2b3507e25065bfc9cc1a226212bbc0
 var	d 						= new Date();
 //------------------- DEPENDENCIES -------------------//
 
@@ -59,6 +63,7 @@ gulp.task('sass', function() {
 // FONT AWESOME BOWER CONCATENATE
 ///////////////////////////////////////
 gulp.task('fontawesome', function() {
+<<<<<<< HEAD
 	return gulp.src('./app/bower_components/font-awesome/css/font-awesome.css')
 	.pipe(concat({path: '_font-awesome.scss', stat: { mode: 0666}}))
 	.pipe(gulp.dest('./app/scss/vendor'));
@@ -69,6 +74,14 @@ gulp.task('fontawesomeTypo', function() {
 	//.pipe(concat({path: '_font-awesome.scss', stat: { mode: 0666}}))
 	.pipe(gulp.dest('./app/fonts'));
 });
+=======
+	return gulp.src('.app/bower_components/font-awesome/scss/font-awesome.scss')
+	.pipe(sass().on('error', sass.logError))
+	.pipe(concat('main.css'))
+	.pipe(gulp.dest('./app/css'));
+});
+
+>>>>>>> 5ab4283f2f2b3507e25065bfc9cc1a226212bbc0
 
 ///////////////////////////////////////
 // CSS MINIFY
@@ -211,5 +224,9 @@ gulp.task('dist', ['useref','sass', 'cssnano', 'fonts', 'scripts', 'uglify', 'im
 ///////////////////////////////////////
 // GULP DEFAULT
 ///////////////////////////////////////
+<<<<<<< HEAD
 gulp.task('default', ['fontawesome','fontawesomeTypo', 'sass', 'scripts', 'jshint', 'serve', 'watch' ]);
 //gulp.task('default', ['fontawesomeTypo']);
+=======
+gulp.task('default', ['serve', 'sass', 'fontawesome', 'scripts','watch']);
+>>>>>>> 5ab4283f2f2b3507e25065bfc9cc1a226212bbc0

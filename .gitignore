@@ -36,5 +36,8 @@ Devnodejsnpm-cache/
 *.css.map
 build/
 *dist_*/
+<<<<<<< HEAD
 dist/
+=======
+>>>>>>> 5ab4283f2f2b3507e25065bfc9cc1a226212bbc0
 maps/
