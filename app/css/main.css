@@ -1,3 +1,9 @@
+/*!
+ *  Font Awesome 4.5.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+/* FONT PATH
+ * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
   src: url("../fonts/fontawesome-webfont.eot?v=4.5.0");
@@ -2070,59 +2076,157 @@
 .fa-percent:before {
   content: "\f295"; }
 
+.bg-color-white {
+  background-color: white; }
+
+.submenu-blank-line {
+  color: black !important; }
+  .submenu-blank-line:hover {
+    background-color: black !important;
+    cursor: default; }
+
 * {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0; }
 
 body {
-  background-color: #ff1a1a;
+  background-color: grey;
   font-family: sans-serif;
-  text-align: center; }
+  overflow-x: hidden; }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  color: #ffffff; }
-  h1 a,
-  h2 a,
-  h3 a,
-  h4 a,
-  h5 a {
-    display: block;
-    width: 100%; }
-    h1 a:link, h1 a:visited,
-    h2 a:link,
-    h2 a:visited,
-    h3 a:link,
-    h3 a:visited,
-    h4 a:link,
-    h4 a:visited,
-    h5 a:link,
-    h5 a:visited {
-      color: #ffffff;
-      text-decoration: none; }
-    h1 a:hover, h1 a:active,
-    h2 a:hover,
-    h2 a:active,
-    h3 a:hover,
-    h3 a:active,
-    h4 a:hover,
-    h4 a:active,
-    h5 a:hover,
-    h5 a:active {
-      background-color: #ffffff;
-      color: #ff1a1a; }
+a {
+  text-decoration: none; }
 
-.box {
-  background-color: #ffffff;
+.container {
   width: 100%;
-  padding: 10px 0;
-  font-weight: 600;
-  color: #ff1a1a; }
-  .box a {
-    color: #ff1a1a;
-    text-decoration: none; }
+  height: 2000px;
+  border: 2px solid red;
+  position: relative;
+  top: 33px;
+  z-index: -1; }
+
+.menu-sml-screen {
+  display: none;
+  overflow: hidden;
+  height: auto;
+  position: relative; }
+  .menu-sml-screen li a {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid white;
+    padding: 19px 14px;
+    background-color: black;
+    font-size: 12px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out; }
+    .menu-sml-screen li a:link, .menu-sml-screen li a:visited {
+      color: white; }
+    .menu-sml-screen li a:hover, .menu-sml-screen li a:active {
+      color: black;
+      background-color: white; }
+
+.sml-menu-container {
+  background-color: black;
+  overflow: hidden; }
+
+.burger-menu {
+  display: none;
+  font-size: 12px;
+  padding: 10px;
+  border: 1px solid black;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out; }
+  .burger-menu:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black; }
+
+.go-back-icon {
+  margin-right: 5px; }
+
+.submenu-sml-screen {
+  overflow: hidden;
+  height: auto;
+  display: block;
+  position: absolute;
+  top: 34px;
+  left: 100%; }
+  .submenu-sml-screen li a {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid white;
+    padding: 19px 14px;
+    background-color: black;
+    font-size: 12px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out; }
+    .submenu-sml-screen li a:link, .submenu-sml-screen li a:visited {
+      color: white; }
+    .submenu-sml-screen li a:hover, .submenu-sml-screen li a:active {
+      color: black;
+      background-color: white; }
+
+.slideOut {
+  left: 100% !important;
+  display: none !important;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out; }
+
+.slideIn {
+  left: 0% !important;
+  display: block !important;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out; }
+
+nav {
+  background-color: white;
+  width: 100%;
+  height: auto;
+  position: fixed; }
+  nav ul {
+    list-style-type: none;
+    width: 100%;
+    height: 0px; }
+
+.menu-lrg-screen {
+  height: 0px; }
+  .menu-lrg-screen li {
+    float: left; }
+    .menu-lrg-screen li a {
+      display: block;
+      border-right: 1px solid grey;
+      padding: 10px;
+      text-align: center;
+      font-size: 12px;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+      width: 94px; }
+      .menu-lrg-screen li a:link, .menu-lrg-screen li a:visited {
+        color: black; }
+      .menu-lrg-screen li a:hover, .menu-lrg-screen li a:active {
+        color: white;
+        background-color: black; }
+
+.submenu-lrg-screen {
+  display: none; }
+  .submenu-lrg-screen li {
+    float: none;
+    background-color: white;
+    border-bottom: 1px solid black; }
+    .submenu-lrg-screen li:first-child {
+      border-top: 1px solid black; }
+
+.menu-lrg-screen li:hover .submenu-lrg-screen {
+  display: block; }
+
+@media only screen and (max-width: 630px) {
+  .menu-lrg-screen {
+    display: none; }
+  .submenu-lrg-screen {
+    display: none; }
+  .burger-menu {
+    display: inline-block; } }
 
 .row:after {
   content: "";
