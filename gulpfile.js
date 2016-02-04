@@ -12,6 +12,7 @@ var jshint 					= require('gulp-jshint');
 var useref 					= require('gulp-useref');
 var htmlmin 				= require('gulp-htmlmin');
 var concatCss 				= require('gulp-concat-css');
+var ngAnnotate 				= require('gulp-ng-annotate');
 
 var pngquant 				= require('imagemin-pngquant');
 var browserSync 			= require('browser-sync');
@@ -32,7 +33,7 @@ gulp.task('serve', ['sass'], function() {
 	gulp.watch('./app/scss/**/*.scss', ['sass']);
 	gulp.watch('./app/css/*.css');
 	gulp.watch('./app/scripts/**/*.js', ['scripts']);
-	gulp.watch('./app/html/**/*.html').on('change', browserSync.reload);
+	gulp.watch('./app/html/**/**/*.html').on('change', browserSync.reload);
 	gulp.watch('./app/*.html').on('change', browserSync.reload);
 });
 
@@ -105,8 +106,9 @@ gulp.task('imagemin', function() {
 gulp.task('scripts', function() {
 	return gulp.src([ 
 		'./app/bower_components/angular/angular.min.js',
+		'./app/bower_components/angular-animate/angular-animate.min.js',
 		'./app/bower_components/jquery/dist/jquery.min.js',
-		'./app/scripts/src/*.js'
+		'./app/scripts/src/**/**/**.js'
 		])
 		//.pipe(concat('main.js'))
 		.pipe(concat({path: 'main.js', stat: { mode: 0666}}))
@@ -134,11 +136,13 @@ gulp.task('jshint', function() {
 gulp.task('uglify', function() {
 	return gulp.src('./app/scripts/main.js')
 		.pipe(sourcemaps.init())
+		.pipe(ngAnnotate())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./dist_' + d.getTime() + '/scripts'));
 		//.pipe(notify('JavaScript has been minified successfully'));
 });
+
 
 ///////////////////////////////////////
 // PARSES INDEX HTML TO DIST + MINIFY
@@ -196,8 +200,8 @@ gulp.task('useref', ['userefInd', 'userefPgs', 'userefInc'], function() {
 gulp.task('watch', function() {
 	gulp.watch('./app/scss/**/*.scss', ['sass']);
 	gulp.watch('./app/css/*.css');
-	gulp.watch('./app/scripts/src/*.js', ['scripts', 'jshint']);
-	gulp.watch('./app/html/**/*.html');
+	gulp.watch('./app/scripts/src/**/**/**.js', ['scripts', 'jshint']);
+	gulp.watch('./app/html/**/**/*.html');
 });
 
 
