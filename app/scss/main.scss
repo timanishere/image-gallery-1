@@ -1,0 +1,27 @@
+
+@import 'vendor/font-awesome';
+
+@import 'utils/variables';
+@import 'utils/helpers';
+@import 'utils/mixins';
+
+@import 'base/reset';
+@import 'base/base';
+@import 'base/color';
+@import 'base/animations';
+@import 'base/typography';
+
+@import 'layout/header';
+@import 'layout/navigationSml';
+@import 'layout/navigation';
+@import 'layout/footer';
+@import 'layout/forms';
+@import 'layout/sidebar';
+@import 'layout/grid';
+
+@import 'components/popup';
+@import 'components/buttons';
+
+@import 'pages/home';
+@import 'pages/contact';
+

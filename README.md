@@ -1,2 +1,1 @@
-# image-gallery-1
-Simple image gallery
+Image gallery created by Tim Anishere

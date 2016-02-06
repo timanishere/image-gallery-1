@@ -1,0 +1,24 @@
+@import 'utils/mixins';
+
+
+// ROW SETTINGS
+.row:after {
+	content: "";
+	clear: both;
+	display: block;
+}
+
+// COLUMN SETTINGS
+.one {width: 8.33%; @include col-config}
+.two {width: 16.66%; @include col-config}
+.three {width: 25%; @include col-config}
+.four {width: 33.33%; @include col-config}
+.five {width: 41.66%; @include col-config}
+.six {width: 50%; @include col-config}
+.seven {width: 58.33%; @include col-config}
+.eight {width: 66.66%; @include col-config}
+.nine {width: 75%; @include col-config}
+.ten {width: 83.33%; @include col-config}
+.eleven {width: 91.66%; @include col-config}
+.twelve {width: 100%; @include col-config}
+
