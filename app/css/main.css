@@ -2197,7 +2197,7 @@ body {
   -ms-flex-align: center;
   align-items: center; }
   .gallery .wrapper {
-    max-width: 1000px;
+    max-width: 100%;
     max-height: 600px;
     margin: 0 auto;
     position: relative; }
@@ -2205,7 +2205,8 @@ body {
       display: block;
       margin: 0 auto;
       max-width: 100%;
-      max-height: 600px; }
+      max-height: 600px;
+      clear: both; }
     .gallery .wrapper .closeBtn {
       text-decoration: none;
       color: white;
