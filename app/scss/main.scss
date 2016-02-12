@@ -1,4 +1,4 @@
-
+@import 'app/bower_components/compass-breakpoint/stylesheets/breakpoint';
 @import 'vendor/font-awesome';
 
 @import 'utils/variables';
@@ -12,15 +12,14 @@
 @import 'base/typography';
 
 @import 'layout/header';
-@import 'layout/navigationSml';
 @import 'layout/navigation';
 @import 'layout/footer';
 @import 'layout/forms';
 @import 'layout/sidebar';
 @import 'layout/grid';
 
-@import 'components/popup';
 @import 'components/buttons';
+@import 'components/gallerypopup';
 
 @import 'pages/home';
 @import 'pages/contact';

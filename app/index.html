@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 	<head>
 		<title>Table</title>
 		<meta charset="UTF-8">
@@ -8,12 +8,33 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
 
-	<body ng-app="">
+	<body>
 		<div class="row">
-			<h1>This boilerplate is created by  <a href="http://www.timanishere.com" target="_blank">Tim Anishere</a></h1>
+			<div ng-controller="galleryCtrl">
+				<div ng-hide="galleryDisplay" class="gallery" tabindex="0" ng-keyDown="galleryNavCtrl()">
+
+					<div class="wrapper">
+						<a ng-click="close()" class="fa fa-close fa-lg closeBtn" href="#"></a>
+
+						<div class="navControls">
+							<a ng-click="prev()" class="fa fa-angle-left fa-3x prev" href="#"></a>
+							<a ng-click="next()" class="fa fa-angle-right fa-3x next" href="#"></a>
+						</div>
+
+						<img ng-src="{{images[current].gallery}}">
+					</div>
+
+				</div>
+
+				<div class="thumbnail_wrapper">
+				<h1>Mansions gallery</h1>
+					<ul class="thumbnail_list">
+						<li class="{{image_column}}" ng-repeat="images in images" ng-click="setCurrent($index)" tabindex="0" ng-keyDown="galleryNavCtrl()">
+							<img ng-src="{{images.thumbnail}}" alt="{{images.description}}">
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
-		<br>
-		<div class="row" ng-include="'html/includes/social.html'"></div>
-		<p class="box"><a href="html/thanks.html">Click here</a></p>
 	</body>
 </html>
